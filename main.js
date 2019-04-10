@@ -42,11 +42,26 @@ function main () {
 		canvasElement.setAttribute('height', height);
 
 
+		
+
 		const game = new Game(canvasElement);
 		game.startLoop();
+		game.setGameOverCallback(buildGameOverScreen);
 
-		setTimeout(buildGameOverScreen, 3000);
+		document.addEventListener('keydown', function(event) {
 
+			if (event.keyCode === 38) {
+				game.player.setDirection(-1);
+			}	else if (event.keyCode === 40) {
+				game.player.setDirection(1);
+			}
+		});
+
+		document.addEventListener('keyup', function(event) { // so it stop when i stop pressing
+			if (event.keyCode === 38 || event.keyCode === 40) {
+				game.player.setDirection(0);
+			}
+		})
 	}
 
 	function buildGameOverScreen () {
